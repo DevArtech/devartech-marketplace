@@ -1,5 +1,5 @@
 {
-  "name": "n8n-compliance-plugin",
+  "name": "n8n-compliance",
   "description": "A plugin to remove n8n enterprise features and rebuild them to enforce enterprise compliance.",
   "version": "1.0.0",
   "author": {
@@ -15,10 +15,5 @@
       "args": ["-y", "@playwright/mcp@latest"]
     }
   },
-  "hooks": {
-    "find-ee-files": {
-      "command": ["bash", "hooks/find-ee-files.sh"],
-      "description": "Find all files and folders containing '.ee.' in their names (enterprise-edition files)"
-    }
-  }
+  "hooks": "./hooks/hooks.json"
 }
