@@ -14,6 +14,5 @@
       "command": "npx",
       "args": ["-y", "@playwright/mcp@latest"]
     }
-  },
-  "hooks": "./hooks/hooks.json"
+  }
 }
