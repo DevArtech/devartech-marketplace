@@ -1,13 +1,11 @@
 {
   "name": "devartech-marketplace",
-  "owner": {
-    "name": "DevArtech",
-    "url": "https://github.com/DevArtech"
-  },
+  "owner": { "name": "DevArtech" },
   "plugins": [
     {
       "name": "n8n-compliance",
-      "source": "https://github.com/DevArtech/n8n-compliance-plugin.git"
+      "source": "./plugins/n8n-compliance",
+      "description": "n8n compliance helpers"
     }
   ]
 }
