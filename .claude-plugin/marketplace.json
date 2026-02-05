@@ -1,0 +1,10 @@
+{
+  "name": "DevArtech Plugin Marketplace",
+  "description": "Internal plugins for compliance and governance",
+  "plugins": [
+    {
+      "name": "n8n-compliance",
+      "repo": "https://github.com/DevArtech/n8n-compliance-plugin.git"
+    }
+  ]
+}
