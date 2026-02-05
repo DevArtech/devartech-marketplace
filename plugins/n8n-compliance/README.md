@@ -18,7 +18,7 @@ The result is functionality that works out-of-box for all users without license 
 1. Install the marketplace then install the plugin:
    ```bash
     /plugin marketplace add https://github.com/DevArtech/devartech-marketplace
-    /plugin install n8n-compliance-plugin@devartech-marketplace
+    /plugin install n8n-compliance@devartech-marketplace
    ```
 
 2. Ensure Claude Code recognizes the plugin by verifying the `.claude-plugin/plugin.json` exists.
