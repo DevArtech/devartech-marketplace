@@ -15,6 +15,7 @@ Invokes the **Examination Agent** to:
 - Perform deep analysis of the specified feature
 - Identify which `.ee.` files are related to the feature for removal
 - Generate generalized documentation (`FEATURE_SPEC.md`)
+- Remove all `.ee.` files for the feature
 
 **Output:** Documentation files in `compliance-work/<feature-name>/`
 
@@ -22,7 +23,6 @@ Invokes the **Examination Agent** to:
 
 Invokes the **Implementation Agent** to:
 - Read the generated `FEATURE_SPEC.md`
-- Remove all `.ee.` files for the feature
 - Implement the feature from documentation
 - Build and validate
 
@@ -31,6 +31,7 @@ Invokes the **Implementation Agent** to:
 ### `/compliance full <feature-name>`
 
 Runs the complete workflow:
+[EXAMINATION STEP]
 1. Examine and document
 2. **Automated validation** - Claude analyzes outputs to verify:
    - Documentation is complete and implementation-ready
@@ -38,18 +39,20 @@ Runs the complete workflow:
    - All `.ee.` files are identified
    - Only pauses for human review if issues are detected
 3. Remove `.ee.` files
-4. Implement from documentation
-5. Build and validate
+[IMPLEMENTATION STEP]
+5. Read the documentation
+5. Implement from documentation
+6. Build and validate
 
 ---
 
 ## Workflow Overview
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     COMPLIANCE WORKFLOW                         │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
+┌────────────────────────────────────────────────────────────────┐
+│                     COMPLIANCE WORKFLOW                        │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
 │  ┌──────────────────┐      ┌──────────────────────────────┐    │
 │  │ EXAMINATION      │      │ Output:                      │    │
 │  │ AGENT            │─────▶│ - FEATURE_SPEC.md            │    │
@@ -57,8 +60,8 @@ Runs the complete workflow:
 │  │ Uses /ee-files   │      │ - ANALYSIS_NOTES.md          │    │
 │  │ hook to discover │      │                              │    │
 │  └──────────────────┘      └──────────────────────────────┘    │
-│           │                                                     │
-│           ▼                                                     │
+│           │                                                    │
+│           ▼                                                    │
 │  ┌──────────────────┐                                          │
 │  │ AUTOMATED        │  ◀── Claude validates documentation      │
 │  │ VALIDATION       │      meets all requirements              │
@@ -66,21 +69,21 @@ Runs the complete workflow:
 │  │ Only pauses if   │  ◀── Issues? → Human review              │
 │  │ issues detected  │      No issues? → Continue               │
 │  └──────────────────┘                                          │
-│           │                                                     │
-│           ▼                                                     │
+│           │                                                    │
+│           ▼                                                    │
 │  ┌──────────────────┐      ┌──────────────────────────────┐    │
 │  │ IMPLEMENTATION   │      │ Actions:                     │    │
-│  │ AGENT            │─────▶│ - Removes .ee. files         │    │
-│  │                  │      │ - Implements from spec       │    │
-│  │ Fresh session    │      │ - Builds & validates         │    │
-│  └──────────────────┘      └──────────────────────────────┘    │
-│           │                                                     │
-│           ▼                                                     │
+│  │ AGENT            │─────▶│ - Implements from spec       │    │
+│  │                  │      │ - Builds & validates         │    │
+│  │ Fresh session    │      └──────────────────────────────┘    │
+│  └──────────────────┘                                          │
+│           │                                                    │
+│           ▼                                                    │
 │  ┌──────────────────┐                                          │
 │  │ MERGE REQUEST    │  ◀── Create MR, get team review          │
 │  └──────────────────┘                                          │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ---
