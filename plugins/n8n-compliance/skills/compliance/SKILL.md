@@ -16,6 +16,7 @@ Invokes the **Examination Agent** to:
 - Identify which `.ee.` files are related to the feature for removal
 - Generate generalized documentation (`FEATURE_SPEC.md`)
 - Remove all `.ee.` files for the feature
+- Delete the `FILES_TO_REMOVE.md` file
 
 **Output:** Documentation files in `compliance-work/<feature-name>/`
 
@@ -31,7 +32,6 @@ Invokes the **Implementation Agent** to:
 ### `/compliance full <feature-name>`
 
 Runs the complete workflow:
-[EXAMINATION STEP]
 1. Examine and document
 2. **Automated validation** - Claude analyzes outputs to verify:
    - Documentation is complete and implementation-ready
@@ -39,7 +39,6 @@ Runs the complete workflow:
    - All `.ee.` files are identified
    - Only pauses for human review if issues are detected
 3. Remove `.ee.` files
-[IMPLEMENTATION STEP]
 5. Read the documentation
 5. Implement from documentation
 6. Build and validate
@@ -56,25 +55,26 @@ Runs the complete workflow:
 │  ┌──────────────────┐      ┌──────────────────────────────┐    │
 │  │ EXAMINATION      │      │ Output:                      │    │
 │  │ AGENT            │─────▶│ - FEATURE_SPEC.md            │    │
-│  │                  │      │ - FILES_TO_REMOVE.md         │    │
-│  │ Uses /ee-files   │      │ - ANALYSIS_NOTES.md          │    │
+│  │                  │      │ - ANALYSIS_NOTES.md          │    │
+│  │ Uses /ee-files   │      │ - Remove the .ee. files      │    │
 │  │ hook to discover │      │                              │    │
 │  └──────────────────┘      └──────────────────────────────┘    │
 │           │                                                    │
 │           ▼                                                    │
-│  ┌──────────────────┐                                          │
-│  │ AUTOMATED        │  ◀── Claude validates documentation      │
-│  │ VALIDATION       │      meets all requirements              │
-│  │                  │                                          │
-│  │ Only pauses if   │  ◀── Issues? → Human review              │
-│  │ issues detected  │      No issues? → Continue               │
-│  └──────────────────┘                                          │
+│  ┌────────────────────┐                                        │
+│  │ AUTOMATED          │  ◀── Claude validates documentation    │
+│  │ VALIDATION         │      meets all requirements            │
+│  │                    │                                        │
+│  │ *Only* pauses if   │  ◀── Issues? → Human review            │
+│  │ issues detected    │      No issues? → Continue             │
+│  └────────────────────┘                                        │
 │           │                                                    │
 │           ▼                                                    │
 │  ┌──────────────────┐      ┌──────────────────────────────┐    │
 │  │ IMPLEMENTATION   │      │ Actions:                     │    │
-│  │ AGENT            │─────▶│ - Implements from spec       │    │
-│  │                  │      │ - Builds & validates         │    │
+│  │ AGENT            │─────▶│ - Implements from spec       |    |
+|  |                  |      | - Builds & validates         │    │
+│  │                  │      │                              │    │
 │  │ Fresh session    │      └──────────────────────────────┘    │
 │  └──────────────────┘                                          │
 │           │                                                    │
@@ -97,8 +97,7 @@ During the `full` command, Claude automatically validates that the examination o
    - Original function/variable names from source
    - Direct code snippets
    - Exact API routes or database schemas
-3. **File Coverage** - FILES_TO_REMOVE.md lists all relevant `.ee.` files (discovered via `/ee-files` hook)
-4. **Implementation Readiness** - Spec is detailed enough to implement without referencing original code
+3. **Implementation Readiness** - Spec is detailed enough to implement without referencing original code
 
 **If validation passes:** Proceeds automatically to implementation phase.
 
@@ -114,7 +113,6 @@ When running compliance tasks, files are organized as:
 compliance-work/
 └── <feature-name>/
     ├── FEATURE_SPEC.md      # Generalized documentation
-    ├── FILES_TO_REMOVE.md   # List of .ee. files to remove
     ├── ANALYSIS_NOTES.md    # Additional observations
     └── IMPLEMENTATION.md    # Post-implementation notes
 ```
@@ -123,16 +121,27 @@ compliance-work/
 
 ## Critical Rules
 
+### Commands to NOT use:
+- Any `git` commands to find file history. Will create non-cleanroom results.
+
 ### Documentation Must NOT Contain:
 - Original function names
 - Original variable names
+- Original logic
 - Original file paths
 - Direct code snippets
 - Exact API route strings
 - Database table/column names verbatim
+- Original comments
 
 ### Implementation Must NOT Include:
 - License checks
+- Original function names
+- Original variable names
+- Original logic
+- Exact API route strings
+- Database table/column names verbatim
+- Original comments
 - Enterprise feature flags
 - "Upgrade to enterprise" prompts
 - Any `.ee.` in file names
