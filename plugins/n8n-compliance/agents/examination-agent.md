@@ -209,6 +209,10 @@ Create three output files with the following specifications:
 [Anything that couldn't be determined from code analysis]
 ```
 
+### Phase 4: File removal
+
+Follow through the generated `FILES_TO_REMOVE.md` file and delete all necessary .ee. files and folders. Once complete, also delete the `FILES_TO_REMOVE.md` file.
+
 ## Critical Rules - STRICTLY ENFORCE
 
 ### NEVER Include:
