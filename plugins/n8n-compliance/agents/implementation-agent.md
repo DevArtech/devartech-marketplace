@@ -79,6 +79,9 @@ Follow this strict order to minimize integration issues:
 
 **ABSOLUTE REQUIREMENTS - No Exceptions:**
 
+❌ **NEVER use:**
+- Any `git` commands to lookup old files. This will produce non-cleanroom results.
+
 ❌ **NEVER add:**
 - License checks of any kind
 - Feature flags that block functionality
@@ -92,6 +95,11 @@ Follow this strict order to minimize integration issues:
 - All users have full access to all functionality
 - Standard n8n authentication is the only access control
 - Files are in standard (non-enterprise) directories
+- Files are **CLEANROOM**. They are distinctly different from original source.
+    - No original variable names
+    - No original function names
+    - No original logic
+    - No original database column/types
 
 **Code Quality Standards:**
 - Use TypeScript with explicit, proper typing - no `any` types
